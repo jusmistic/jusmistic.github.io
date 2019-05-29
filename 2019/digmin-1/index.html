@@ -198,13 +198,13 @@
 
 <p>แต่ว่า&hellip;ทำไมสกอร์ไฟล์มันต่ำแปลก ๆ หว่า มันแทบไม่มีพฤติกรรมที่บ่งชี้เลยนะ เลยเลื่อนลงมาดูว่ามีพฤติกรรมอะไรที่น่าสงสัยบ้าง</p>
 
-<p><figure><img src="/images/ring.svg" data-sizes="auto" data-src="/images/malware-diary1/4.jpg" alt="1558880899126" class="lazyload"><figcaption class="image-caption">1558880899126</figcaption></figure></p>
+<p><figure><img src="/images/ring.svg" data-sizes="auto" data-src="/images/malware-diary1/4.jpg" alt="ผลของ Cuckoo" class="lazyload"><figcaption class="image-caption">ผลของ Cuckoo</figcaption></figure></p>
 
 <p>นี่มันแทบไม่เจออะไรเลยนี่หว่า มีแปลก ๆ แค่มีการส่ง Packet ICMP เท่านั้นที่ดูเป็นพฤติกรรมที่ประหลาด เอาไงดีวะ Sandbox ไม่เวิร์ค น่าจะเหลือทางเดียว&hellip;แงะเองไงครับ</p>
 
 <p>ก่อนอื่นรายละเอียดเกี่ยวกับไฟล์มาก่อน เลยลอง strings บน Linux ดูว่าเจออะไรน่าสนใจบ้าง</p>
 
-<p><figure><img src="/images/ring.svg" data-sizes="auto" data-src="/images/malware-diary1/5.jpg" alt="1558883588435" class="lazyload"><figcaption class="image-caption">1558883588435</figcaption></figure></p>
+<p><figure><img src="/images/ring.svg" data-sizes="auto" data-src="/images/malware-diary1/5.jpg" alt="strings ดู Text ในไฟล์แปป" class="lazyload"><figcaption class="image-caption">strings ดู Text ในไฟล์แปป</figcaption></figure></p>
 
 <p>ตาเหลือบไปเห็นคำว่า &ldquo;AutoIt&rdquo; ใน String ที่เจอ AutoIt คืออะไรหว่า? AutoIt เป็น Script Languages ภาษาหนึ่งที่คล้าย ๆ กับภาษา Basic สร้างมาเพื่อทำงาน Automate บน Windows เลยลองหาต่อก็พบว่ามีมัลแวร์หลาย ๆ ตัวถูกพัฒนาด้วยภาษานี้และก็พบว่าภาษานี้สามารถแปลงจาก Binary ไฟล์ไปเป็น Source Code ได้&hellip;</p>
 
@@ -240,7 +240,7 @@
 
 <p>จากภาพด้านบนจะเห็นว่า Source Code ที่เราได้มันอ่านไม่รู้เรื่อง ซึ่งน่าจะหมายความว่าคนที่สร้างมัลแวร์ตัวนี้นั้นน่าจะรู้ในข้อด้อยของภาษา AutoIt คือสามารถทำ Reverse Engineer ได้ง่าย จึงมีการทำ Obfuscate Source Code(ทำให้ Source Code อ่านได้ยาก) ก่อนทำการคอมไพล์ ทำไงดีหว่าถึงจะ Deobfuscate Source Code ตัวนี้ได้ เลยลองหาใน Google ดู ไปเจอ <a href="https://github.com/cystack/monero-mining-malware" rel="nofollow noreferrer" target="_blank">Github Repo</a> นึงมีคนอัพมัลแวร์ตัวนึงที่เขียนด้วย AutoIt ซึ่งดูลักษณะโครงสร้างเหมือนกับ Malware ตัวนี้เลยมาทราบภายหลังว่าชื่อ **DigMine **แต่มัลแวร์ตัวนี้มีข้อแตกต่างกับตัวที่เคยพบคือมีการทำ Obfuscate ที่ยากต่อการ Deobfuscate มากขึ้น พูดง่าย ๆ คือมันแงะยากขึ้นนั่นแหละ</p>
 
-<p><figure><img src="/images/ring.svg" data-sizes="auto" data-src="/images/malware-diary1/7.jpg" alt="1558941448249" class="lazyload"><figcaption class="image-caption">1558941448249</figcaption></figure></p>
+<p><figure><img src="/images/ring.svg" data-sizes="auto" data-src="/images/malware-diary1/7.jpg" alt="เปรียบเทียบมัลแวร์ระหว่างตัวเก่าที่เคยพบกับตัวปัจจุบัน" class="lazyload"><figcaption class="image-caption">เปรียบเทียบมัลแวร์ระหว่างตัวเก่าที่เคยพบกับตัวปัจจุบัน</figcaption></figure></p>
 
 <p>จากภาพด้านบนจะเห็นว่าแบบเก่านั้นมีการ Obfuscate ง่ายมากคือแค่เอา String ไปเข้ารหัส แต่จากแบบใหม่จะเห็นว่ามีการตัด String ออกเป็น String ย่อย ๆ แล้วเอา String นั้นไปเก็บใน Function หรือเอาไปเก็บในตัวแปรต่าง ๆ ก่อนแล้วจึงค่อยเอามาต่อกันแล้วจึงถอดรหัส</p>
 
