@@ -4,7 +4,7 @@
     <url>
       <loc>https://jusmistic.github.io/categories/</loc>
       
-      <lastmod>2019-05-26T15:22:25+07:00</lastmod>
+      <lastmod>2019-06-03T02:00:53+07:00</lastmod>
       
       
       
@@ -16,7 +16,7 @@
     <url>
       <loc>https://jusmistic.github.io/</loc>
       
-      <lastmod>2019-05-26T15:22:25+07:00</lastmod>
+      <lastmod>2019-06-03T02:00:53+07:00</lastmod>
       
       
       
@@ -28,11 +28,25 @@
     <url>
       <loc>https://jusmistic.github.io/categories/malware-analysis-digmine/</loc>
       
-      <lastmod>2019-05-26T15:22:25+07:00</lastmod>
+      <lastmod>2019-06-03T02:00:53+07:00</lastmod>
       
       
       
       <priority>0</priority>
+      
+      
+    </url>
+  
+    <url>
+      <loc>https://jusmistic.github.io/2019/digmine-2/</loc>
+      
+      <lastmod>2019-06-03T02:00:53+07:00</lastmod>
+      
+      
+      <changefreq>monthly</changefreq>
+      
+      
+      <priority>0.5</priority>
       
       
     </url>
