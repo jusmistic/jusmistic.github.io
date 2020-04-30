@@ -1,8 +1,10 @@
 ---
-title: "Malware Diary: DigMine Part1 - เมื่อผล Malware Sandbox ไม่เป็นตามที่หวัง"
+title: "Malware Diary: DigMine Part1 - เมื่อผลของ Malware Sandbox ไม่เป็นไปตามที่หวัง"
 date: 2019-05-26T15:22:25+07:00
 draft: false
 categories: ["Malware Analysis : DigMine"]
+featured_image: "/images/malware-diary1/thumnail.jpg"
+featured_image_caption: "เมื่ออยากรู้ว่ามัลแวร์ทำงานยังไงแต่ Malware Sandbox กลับตรวจไม่พบ ทำไงดีน้าา?"
 ---
 
 *บทความนี้เป็นไดอารี่ไม่ใช่ Tutorial นะครับ*
@@ -34,13 +36,13 @@ categories: ["Malware Analysis : DigMine"]
 
 แต่ว่า...ทำไมสกอร์ไฟล์มันต่ำแปลก ๆ หว่า มันแทบไม่มีพฤติกรรมที่บ่งชี้เลยนะ เลยเลื่อนลงมาดูว่ามีพฤติกรรมอะไรที่น่าสงสัยบ้าง 
 
-![1558880899126](/images/malware-diary1/4.jpg)
+![ผลของ Cuckoo](/images/malware-diary1/4.jpg)
 
 นี่มันแทบไม่เจออะไรเลยนี่หว่า มีแปลก ๆ แค่มีการส่ง Packet ICMP เท่านั้นที่ดูเป็นพฤติกรรมที่ประหลาด เอาไงดีวะ Sandbox ไม่เวิร์ค น่าจะเหลือทางเดียว...แงะเองไงครับ
 
 ก่อนอื่นรายละเอียดเกี่ยวกับไฟล์มาก่อน เลยลอง strings บน Linux ดูว่าเจออะไรน่าสนใจบ้าง
 
-![1558883588435](/images/malware-diary1/5.jpg)
+![strings ดู Text ในไฟล์แปป](/images/malware-diary1/5.jpg)
 
 ตาเหลือบไปเห็นคำว่า "AutoIt" ใน String ที่เจอ AutoIt คืออะไรหว่า? AutoIt เป็น Script Languages ภาษาหนึ่งที่คล้าย ๆ กับภาษา Basic สร้างมาเพื่อทำงาน Automate บน Windows เลยลองหาต่อก็พบว่ามีมัลแวร์หลาย ๆ ตัวถูกพัฒนาด้วยภาษานี้และก็พบว่าภาษานี้สามารถแปลงจาก Binary ไฟล์ไปเป็น Source Code ได้...
 
@@ -76,7 +78,7 @@ categories: ["Malware Analysis : DigMine"]
 
 จากภาพด้านบนจะเห็นว่า Source Code ที่เราได้มันอ่านไม่รู้เรื่อง ซึ่งน่าจะหมายความว่าคนที่สร้างมัลแวร์ตัวนี้นั้นน่าจะรู้ในข้อด้อยของภาษา AutoIt คือสามารถทำ Reverse Engineer ได้ง่าย จึงมีการทำ Obfuscate Source Code(ทำให้ Source Code อ่านได้ยาก) ก่อนทำการคอมไพล์ ทำไงดีหว่าถึงจะ Deobfuscate Source Code ตัวนี้ได้ เลยลองหาใน Google ดู ไปเจอ [Github Repo](https://github.com/cystack/monero-mining-malware) นึงมีคนอัพมัลแวร์ตัวนึงที่เขียนด้วย AutoIt ซึ่งดูลักษณะโครงสร้างเหมือนกับ Malware ตัวนี้เลยมาทราบภายหลังว่าชื่อ **DigMine **แต่มัลแวร์ตัวนี้มีข้อแตกต่างกับตัวที่เคยพบคือมีการทำ Obfuscate ที่ยากต่อการ Deobfuscate มากขึ้น พูดง่าย ๆ คือมันแงะยากขึ้นนั่นแหละ 
 
-![1558941448249](/images/malware-diary1/7.jpg)
+![เปรียบเทียบมัลแวร์ระหว่างตัวเก่าที่เคยพบกับตัวปัจจุบัน](/images/malware-diary1/7.jpg)
 
 จากภาพด้านบนจะเห็นว่าแบบเก่านั้นมีการ Obfuscate ง่ายมากคือแค่เอา String ไปเข้ารหัส แต่จากแบบใหม่จะเห็นว่ามีการตัด String ออกเป็น String ย่อย ๆ แล้วเอา String นั้นไปเก็บใน Function หรือเอาไปเก็บในตัวแปรต่าง ๆ ก่อนแล้วจึงค่อยเอามาต่อกันแล้วจึงถอดรหัส
 

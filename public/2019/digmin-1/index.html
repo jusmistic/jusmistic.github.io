@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta http-equiv="content-type" content="text/html;charset=utf-8">
+  <meta http-equiv="X-UA-Compatible" content="chrome=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noodp"/>
+  
+  
+  
+  
+  
+  
+  <link rel="next" href="https://jusmistic.github.io/2019/digmine-2/" />
+  <link rel="canonical" href="https://jusmistic.github.io/2019/digmin-1/" />
+  <link rel='shortcut icon' type='image/x-icon' href='/favicon.ico' />
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+  <meta name="msapplication-TileColor" content="#da532c">
+  <meta name="theme-color" content="#ffffff">
+  <title>
+       
+       
+           Malware Diary: DigMine Part1 - เมื่อผลของ Malware Sandbox ไม่เป็นไปตามที่หวัง | Jusmistic&#39;s Diary
+       
+  </title>
+  <meta name="title" content="Malware Diary: DigMine Part1 - เมื่อผลของ Malware Sandbox ไม่เป็นไปตามที่หวัง | Jusmistic&#39;s Diary">
+    
+  
+  <link rel="stylesheet" href="/font/iconfont.css">
+  <link rel="stylesheet" href="/css/main.min.css">
+  
+<link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap" rel="stylesheet">
+
+
+  <meta name="twitter:card" content="summary"/>
+<meta name="twitter:title" content="Malware Diary: DigMine Part1 - เมื่อผลของ Malware Sandbox ไม่เป็นไปตามที่หวัง"/>
+<meta name="twitter:description" content="บทความนี้เป็นไดอารี่ไม่ใช่ Tutorial นะครับ
+เมื่อช่วงเดือนที่ผ่านมาได้รับข้อความแปลก ๆ เป็นไฟล์ที่ชืิ่อ video_xxxxx.zip หรือ video_xxxxx.bz จากเพื่อนในเฟรนด์ลิสท์
+เห็นครั้งแรกก็เดาก่อนเลยว่าเป็นมัลแวร์แน่ ๆ คนที่ส่งมาให้เป็นผู้หญิงแถมตั้งชื่อไฟล์ว่า Video อีก มันช่างน่ากด(รันไฟล์)เหลือเกินน!
+พอได้ไฟล์เลยเกิดความสงสัยว่าเห้ย มันใช่ไวรัสจริงป่ะวะหรือแค่คิดไปเองเลยเป็นที่มาของไดอารี่ฉบับนี้!
+ลองหาใน Google เกี่ยวกับ Malware Analysis พบว่าเราสามารถแบ่งการทำ Malware Analysis เป็น 2 ประเภท
+ Static Analysis คือการวิเคราะห์ไฟล์โดยไม่ Execute เช่นการทำ Reverse Engineer เพื่อดูว่ามัลแวร์มันทำงานยังไง Dynamic Analysis คือการวิเคราะห์จากการสังเกตุพฤติกรรมการทำงานของมัลแวร์โดยจะทำบนเครื่องจริงหรือบน VM ก็ได้ โดยพฤติกรรมที่เราจะสังเกตุก็อย่างเช่น มีการเขียนไฟล์อะไรไหม แก้ Registry รึเปล่า หรือมีการติดต่อกับ Network ภายนอกหรือไม่  ดูแล้ว Static Analysis น่าจะทำได้ก่อนแฮะ เราจึงเริ่มต้นด้วยการทดลองอัพโหลดไฟล์ไปยัง Virustotal เช็ครายละเอียดไฟล์คร่าว ๆ ก่อนจะได้ดูด้วยว่าเป็นไวรัสไหม
+ก็อย่างที่คิดแฮะ มันน่าจะเป็นไวรัส คำถามต่อมามันทำงานยังไงกันนะ 🤔 เลยลอง Google ดูจนเจอสิ่งที่เรียกว่า Cuckoo Sandbox เป็นระบบที่ใช้ในการทำ Automate Malware Analysis เอ่อดีแฮะ เซ็ตเสร็จเอามัลแวร์ไปรันแล้วพักไปกินกาแฟชิว ๆ แล้วค่อยกลับมาดูผลดีกว่า แต่ว่า&hellip;."/>
+
+  <script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "BlogPosting",
+  "headline": "Malware Diary: DigMine Part1 - เมื่อผลของ Malware Sandbox ไม่เป็นไปตามที่หวัง",
+  "mainEntityOfPage": {
+    "@type": "WebPage",
+    "@id": "https:\/\/jusmistic.github.io\/2019\/digmin-1\/"
+  },
+  "image": {
+    "@type": "ImageObject",
+    "url": "https:\/\/jusmistic.github.io\/cover.png",
+    "width":  800 ,
+    "height":  600 
+  },
+  "genre": "posts",
+  
+  "wordcount":  329 ,
+  "url": "https:\/\/jusmistic.github.io\/2019\/digmin-1\/",
+  "datePublished": "2019-05-26T15:22:25\x2b07:00",
+  "dateModified": "2019-05-26T15:22:25\x2b07:00",
+  
+  "publisher": {
+    "@type": "Organization",
+    "name": "Jusmistic",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https:\/\/jusmistic.github.io\/logo.png",
+      "width":  127 ,
+      "height":  40 
+    }
+  },
+  "author": {
+    "@type": "Person",
+    "name": "Jusmistic"
+  },
+  "description": ""
+}
+</script>
+</head>
+
+  
+
+
+
+  <body class="">
+    <div class="wrapper">
+        <nav class="navbar">
+    <div class="container">
+        <div class="navbar-header header-logo">
+        	<a href="https://jusmistic.github.io">Jusmistic&#39;s Diary</a>
+        </div>
+        <div class="menu navbar-right">
+                
+                
+                <a class="menu-item" href="/posts/" title="">Blog</a>
+                
+                <a class="menu-item" href="/categories/" title="">Categories</a>
+                
+                <a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-sun"></i></a>&nbsp;
+        </div>
+    </div>
+</nav>
+<nav class="navbar-mobile" id="nav-mobile" style="display: none">
+     <div class="container">
+        <div class="navbar-header">
+            <div>  <a href="javascript:void(0);" class="theme-switch"><i class="iconfont icon-sun"></i></a>&nbsp;<a href="https://jusmistic.github.io">Jusmistic&#39;s Diary</a></div>
+            <div class="menu-toggle">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+     
+          <div class="menu" id="mobile-menu">
+                
+                
+                <a class="menu-item" href="/posts/" title="">Blog</a>
+                
+                <a class="menu-item" href="/categories/" title="">Categories</a>
+                
+        </div>
+    </div>
+</nav>
+
+    	 <main class="main">
+          <div class="container">
+      		
+<article class="post-warp">
+    <header class="post-header">
+        <h1 class="post-title">Malware Diary: DigMine Part1 - เมื่อผลของ Malware Sandbox ไม่เป็นไปตามที่หวัง</h1>
+        <div class="post-meta">
+            Written by <a href="https://jusmistic.github.io" rel="author">Jusmistic</a> with ♥ 
+                <span class="post-time">
+                    on <time datetime=2019-05-26 >26 May 2019</time>
+                </span>
+                in
+                <i class="iconfont icon-folder"></i>
+                <span class="post-category">
+                        <a href="https://jusmistic.github.io/categories/malware-analysis-digmine/"> Malware Analysis : DigMine </a>
+                        
+                </span>
+                <i class="iconfont icon-timer"></i>
+                2 min
+        </div>
+    </header>
+    <div class="post-content">
+        
+
+        
+            
+        
+
+        <img src="/images/malware-diary1/thumnail.jpg" class="featured_image">
+        
+        
+     
+          
+          
+          
+
+          
+          
+          
+
+          
+
+<p><em>บทความนี้เป็นไดอารี่ไม่ใช่ Tutorial นะครับ</em></p>
+
+<p>เมื่อช่วงเดือนที่ผ่านมาได้รับข้อความแปลก ๆ เป็นไฟล์ที่ชืิ่อ video_xxxxx.zip หรือ video_xxxxx.bz จากเพื่อนในเฟรนด์ลิสท์</p>
+
+<p><figure><img src="/images/ring.svg" data-sizes="auto" data-src="/images/malware-diary1/1.jpg" alt="ขอเซ็นเซอร์ด้วยรูปเจนนี่นะค้าบ" class="lazyload"><figcaption class="image-caption">ขอเซ็นเซอร์ด้วยรูปเจนนี่นะค้าบ</figcaption></figure></p>
+
+<p>เห็นครั้งแรกก็เดาก่อนเลยว่าเป็นมัลแวร์แน่ ๆ คนที่ส่งมาให้เป็นผู้หญิงแถมตั้งชื่อไฟล์ว่า Video อีก มันช่างน่ากด(รันไฟล์)เหลือเกินน!</p>
+
+<p>พอได้ไฟล์เลยเกิดความสงสัยว่าเห้ย มันใช่ไวรัสจริงป่ะวะหรือแค่คิดไปเองเลยเป็นที่มาของไดอารี่ฉบับนี้!</p>
+
+<p>ลองหาใน Google เกี่ยวกับ Malware Analysis พบว่าเราสามารถแบ่งการทำ Malware Analysis เป็น 2 ประเภท</p>
+
+<ul>
+<li><strong>Static Analysis</strong> คือการวิเคราะห์ไฟล์โดยไม่ Execute เช่นการทำ Reverse Engineer เพื่อดูว่ามัลแวร์มันทำงานยังไง</li>
+<li><strong>Dynamic Analysis</strong> คือการวิเคราะห์จากการสังเกตุพฤติกรรมการทำงานของมัลแวร์โดยจะทำบนเครื่องจริงหรือบน VM ก็ได้ โดยพฤติกรรมที่เราจะสังเกตุก็อย่างเช่น มีการเขียนไฟล์อะไรไหม แก้ Registry รึเปล่า หรือมีการติดต่อกับ Network ภายนอกหรือไม่</li>
+</ul>
+
+<p>ดูแล้ว Static Analysis น่าจะทำได้ก่อนแฮะ เราจึงเริ่มต้นด้วยการทดลองอัพโหลดไฟล์ไปยัง Virustotal เช็ครายละเอียดไฟล์คร่าว ๆ ก่อนจะได้ดูด้วยว่าเป็นไวรัสไหม</p>
+
+<p><figure><img src="/images/ring.svg" data-sizes="auto" data-src="/images/malware-diary1/2.jpg" alt="ผลของการอัพไฟล์ขึ้นไปเช็คที่ Virustotal" class="lazyload"><figcaption class="image-caption">ผลของการอัพไฟล์ขึ้นไปเช็คที่ Virustotal</figcaption></figure></p>
+
+<p>ก็อย่างที่คิดแฮะ มันน่าจะเป็นไวรัส คำถามต่อมามันทำงานยังไงกันนะ 🤔 เลยลอง Google ดูจนเจอสิ่งที่เรียกว่า Cuckoo Sandbox เป็นระบบที่ใช้ในการทำ Automate Malware Analysis เอ่อดีแฮะ เซ็ตเสร็จเอามัลแวร์ไปรันแล้วพักไปกินกาแฟชิว ๆ แล้วค่อยกลับมาดูผลดีกว่า แต่ว่า&hellip;.</p>
+
+<p><figure><img src="/images/ring.svg" data-sizes="auto" data-src="/images/malware-diary1/3.jpg" alt="ผลของ Cuckoo" class="lazyload"><figcaption class="image-caption">ผลของ Cuckoo</figcaption></figure></p>
+
+<p>แต่ว่า&hellip;ทำไมสกอร์ไฟล์มันต่ำแปลก ๆ หว่า มันแทบไม่มีพฤติกรรมที่บ่งชี้เลยนะ เลยเลื่อนลงมาดูว่ามีพฤติกรรมอะไรที่น่าสงสัยบ้าง</p>
+
+<p><figure><img src="/images/ring.svg" data-sizes="auto" data-src="/images/malware-diary1/4.jpg" alt="ผลของ Cuckoo" class="lazyload"><figcaption class="image-caption">ผลของ Cuckoo</figcaption></figure></p>
+
+<p>นี่มันแทบไม่เจออะไรเลยนี่หว่า มีแปลก ๆ แค่มีการส่ง Packet ICMP เท่านั้นที่ดูเป็นพฤติกรรมที่ประหลาด เอาไงดีวะ Sandbox ไม่เวิร์ค น่าจะเหลือทางเดียว&hellip;แงะเองไงครับ</p>
+
+<p>ก่อนอื่นรายละเอียดเกี่ยวกับไฟล์มาก่อน เลยลอง strings บน Linux ดูว่าเจออะไรน่าสนใจบ้าง</p>
+
+<p><figure><img src="/images/ring.svg" data-sizes="auto" data-src="/images/malware-diary1/5.jpg" alt="strings ดู Text ในไฟล์แปป" class="lazyload"><figcaption class="image-caption">strings ดู Text ในไฟล์แปป</figcaption></figure></p>
+
+<p>ตาเหลือบไปเห็นคำว่า &ldquo;AutoIt&rdquo; ใน String ที่เจอ AutoIt คืออะไรหว่า? AutoIt เป็น Script Languages ภาษาหนึ่งที่คล้าย ๆ กับภาษา Basic สร้างมาเพื่อทำงาน Automate บน Windows เลยลองหาต่อก็พบว่ามีมัลแวร์หลาย ๆ ตัวถูกพัฒนาด้วยภาษานี้และก็พบว่าภาษานี้สามารถแปลงจาก Binary ไฟล์ไปเป็น Source Code ได้&hellip;</p>
+
+<p><figure><img src="/images/ring.svg" data-sizes="auto" data-src="https://media.giphy.com/media/1g2AnafVNsgbiwBjr6/giphy.gif" alt="!Reverse_Engineer == Easy_Life" class="lazyload"><figcaption class="image-caption">!Reverse_Engineer == Easy_Life</figcaption></figure></p>
+
+<p>ซึ่งโปรแกรมที่ใช้คือโปรแกรม Exe2Aut ซึ่งสามารถดาวน์โหลดได้ที่ <a href="https://exe2aut.com/" rel="nofollow noreferrer" target="_blank">https://exe2aut.com/</a></p>
+
+<p><figure><img src="/images/ring.svg" data-sizes="auto" data-src="/images/malware-diary1/9.png" alt="เว็บเจ๊งเฉย!😥" class="lazyload"><figcaption class="image-caption">เว็บเจ๊งเฉย!😥</figcaption></figure></p>
+
+<p>เลยลองไปหาดูใน <a href="https://github.com/JacobPimental/exe2aut" rel="nofollow noreferrer" target="_blank">Github</a> บังเอิญว่ามีคนได้อัพโหลดไว้พอดี</p>
+
+<p>หลังจากได้โปรแกรมในการแปลงจาก Binary ไปเป็น Source Code แล้วรันเลยมั้ย?
+คำตอบคือไม่ครับ เพราะจริง ๆ เราไม่รู้ว่าโปรแกรม Exe2Aut นั้นปลอดภัยรึเปล่าบางที Exe2Aut อาจเป็นมัลแวร์ด้วยก็ได้ใครจะรู้ ถูกมะ? สิ่งที่เราต้องทำต่อไปก็คือ..</p>
+
+<h2 id="setting-virtual-machine">Setting Virtual Machine</h2>
+
+<p>มาสร้าง Enironment จำลองเพื่อใช้ในการวิเคราะห์มัลแวร์กันดีกว่าคือเราเซ็ตครั้งเดียวใช้ได้ทั้ง Exe2Aut แล้วยาวไปยังการทำ Dynamic Analysis เลย โดยเราจะสร้าง Virtual Machine บน VirtualBox หรือ VMWare Workstation Pro ก็ได้แล้วแต่ศรัทธา(และกำลังเงิน)</p>
+
+<p>โดย VM จะมีรายละเอียดที่ควรตั้งค่าประมาณนี้</p>
+
+<ul>
+<li>OS : Windows 7 64 bit</li>
+<li>RAM: 4096 Mb</li>
+<li>HDD: About 40 Gb</li>
+<li>Network Setting: NAT เหตุผลคือ Malware จะต่อ Internet ได้แต่มองไม่เห็น Network ในวงเดียวกับเครื่อง Host ทำให้เราสามารถวิเคราะห์ Network Behavior ได้ปกติและไม่ต้องตัวในกรณีที่มัลแวร์จะแพร่กระจายมายังเครื่อง Host ด้วย</li>
+</ul>
+
+<p>หลังจากสร้าง VM เสร็จให้สร้าง Snapshot ไว้ด้วยจะได้ Revert กลับได้</p>
+
+<p>โอเคในเมื่อ Evironment น่าจะพร้อมแล้วทำการรัน exe2aut เพื่อแปลงจาก Binary ของมัลแวร์ไปเป็น Source Code โลดด</p>
+
+<p><figure><img src="/images/ring.svg" data-sizes="auto" data-src="/images/malware-diary1/6.jpg" alt="Source Code ที่ได้จาก Exe2Aut" class="lazyload"><figcaption class="image-caption">Source Code ที่ได้จาก Exe2Aut</figcaption></figure></p>
+
+<p>จากภาพด้านบนจะเห็นว่า Source Code ที่เราได้มันอ่านไม่รู้เรื่อง ซึ่งน่าจะหมายความว่าคนที่สร้างมัลแวร์ตัวนี้นั้นน่าจะรู้ในข้อด้อยของภาษา AutoIt คือสามารถทำ Reverse Engineer ได้ง่าย จึงมีการทำ Obfuscate Source Code(ทำให้ Source Code อ่านได้ยาก) ก่อนทำการคอมไพล์ ทำไงดีหว่าถึงจะ Deobfuscate Source Code ตัวนี้ได้ เลยลองหาใน Google ดู ไปเจอ <a href="https://github.com/cystack/monero-mining-malware" rel="nofollow noreferrer" target="_blank">Github Repo</a> นึงมีคนอัพมัลแวร์ตัวนึงที่เขียนด้วย AutoIt ซึ่งดูลักษณะโครงสร้างเหมือนกับ Malware ตัวนี้เลยมาทราบภายหลังว่าชื่อ **DigMine **แต่มัลแวร์ตัวนี้มีข้อแตกต่างกับตัวที่เคยพบคือมีการทำ Obfuscate ที่ยากต่อการ Deobfuscate มากขึ้น พูดง่าย ๆ คือมันแงะยากขึ้นนั่นแหละ</p>
+
+<p><figure><img src="/images/ring.svg" data-sizes="auto" data-src="/images/malware-diary1/7.jpg" alt="เปรียบเทียบมัลแวร์ระหว่างตัวเก่าที่เคยพบกับตัวปัจจุบัน" class="lazyload"><figcaption class="image-caption">เปรียบเทียบมัลแวร์ระหว่างตัวเก่าที่เคยพบกับตัวปัจจุบัน</figcaption></figure></p>
+
+<p>จากภาพด้านบนจะเห็นว่าแบบเก่านั้นมีการ Obfuscate ง่ายมากคือแค่เอา String ไปเข้ารหัส แต่จากแบบใหม่จะเห็นว่ามีการตัด String ออกเป็น String ย่อย ๆ แล้วเอา String นั้นไปเก็บใน Function หรือเอาไปเก็บในตัวแปรต่าง ๆ ก่อนแล้วจึงค่อยเอามาต่อกันแล้วจึงถอดรหัส</p>
+
+<p>แต่สิ่งที่เหมือนเดิมคือ Function ถอดรหัสเราเลยลองเอามา Deobfuscate ให้อ่านง่ายขึ้น</p>
+
+<p><figure><img src="/images/ring.svg" data-sizes="auto" data-src="/images/malware-diary1/8.jpg" alt="Function ในการถอดรหัสมาเขียนใหม่ให้อ่านง่ายขึ้น" class="lazyload"><figcaption class="image-caption">Function ในการถอดรหัสมาเขียนใหม่ให้อ่านง่ายขึ้น</figcaption></figure></p>
+
+<p>จาก Source Code ที่ทำการ Deobfuscate แล้วจะเห็นว่ามันอ่านง่ายขึ้นมากกก มาดู ๆ อัลกอริทึมเหมือนการเข้ารหัสแบบ Vigenère cipher  เลยนี่หว่ายังมีใครใช้อยู่ด้วยหรอวะ! ยังกะ CTF</p>
+
+<p>แต่ว่า&hellip;ถึงแม้เราจะ Deobfuscate ได้บางส่วนเราก็ยังไม่เข้าใจการทำงานมันอยู่ดี เพราะเรา Deobfuscate ได้แค่ส่วนของ Function ถอดรหัส ถ้าจะให้ไปไล่ Deobfucate มือทั้ง Source Code คงไม่ไหว&hellip;เพราะอะไรหน่ะหรอ?</p>
+
+<p><em>เพราะเราขี้เกียจยังไงหล่ะ&hellip;</em></p>
+
+<p>แต่มันก็ยังพอมีวิธีเอา Source Code ไปใช้แบบคนขี้เกียจอยู่บ้าง ติดตาม Part 2 นะค้าบบ
+ถ้ามีอะไร/ตรงไหนผิดพลาดเมนชั่นมาบอกใน Twitter ก็ได้ค้าบ เดี้ยวจะเอาไปปรับปรุงแก้ ขอบคุณที่อ่านจนจบนะค้าบบ 😀</p>
+
+    </div>
+
+    <div class="post-copyright">
+             
+            <p class="copyright-item">
+                <span>Author:</span>
+                <span>Jusmistic </span>
+                </p>
+            
+           
+            <p class="copyright-item">
+                    <span>Words:</span>
+                   <span>329</span>
+            </p>
+            
+            <p class="copyright-item">
+                
+                <span>Share:</span>
+                <span>
+
+      
+        <a href="//twitter.com/share?url=https%3a%2f%2fjusmistic.github.io%2f2019%2fdigmin-1%2f&amp;text=Malware%20Diary%3a%20DigMine%20Part1%20-%20%e0%b9%80%e0%b8%a1%e0%b8%b7%e0%b9%88%e0%b8%ad%e0%b8%9c%e0%b8%a5%e0%b8%82%e0%b8%ad%e0%b8%87%20Malware%20Sandbox%20%e0%b9%84%e0%b8%a1%e0%b9%88%e0%b9%80%e0%b8%9b%e0%b9%87%e0%b8%99%e0%b9%84%e0%b8%9b%e0%b8%95%e0%b8%b2%e0%b8%a1%e0%b8%97%e0%b8%b5%e0%b9%88%e0%b8%ab%e0%b8%a7%e0%b8%b1%e0%b8%87&amp;via=GIIIR4FFE" target="_blank" title="Share on Twitter">
+          <i class="iconfont icon-twitter"></i>
+        </a>
+        
+      
+      
+        <a href="//www.facebook.com/sharer/sharer.php?u=https%3a%2f%2fjusmistic.github.io%2f2019%2fdigmin-1%2f" target="_blank" title="Share on Facebook">
+          <i class="iconfont icon-facebook"></i>
+        </a>
+        
+      
+      
+      
+      
+      
+      
+        
+      
+        
+      
+
+          
+
+          
+
+          
+
+          
+</span>
+                
+            </p>
+
+            
+    </div>
+
+  
+    <div class="post-tags">
+        
+        <section>
+                <a href="javascript:window.history.back();">Back</a></span> · 
+                <span><a href="https://jusmistic.github.io">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav">
+         
+        
+        <a href="https://jusmistic.github.io/2019/digmine-2/" class="next" rel="next" title="Malware Diary: DigMine Part2 - Dynamic Analysis ฉบับคนขี้เกียจ">Malware Diary: DigMine Part2 - Dynamic Analysis ฉบับคนขี้เกียจ&nbsp;<i class="iconfont icon-xiaojiantou"></i></a>
+        
+    </div>
+
+    <div class="post-comment">
+          
+          <div id="disqus_thread"></div>
+    <script type="text/javascript">
+    (function() {
+      
+      
+      if (window.location.hostname === 'localhost') return;
+
+      var dsq = document.createElement('script'); dsq.type = 'text/javascript'; dsq.async = true;
+      var disqus_shortname = 'Jusmistic';
+      dsq.src = '//' + disqus_shortname + '.disqus.com/embed.js';
+      (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(dsq);
+    })();
+    </script>
+    <noscript>Please enable JavaScript to view the <a href="http://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+  
+
+
+          
+    </div>
+</article>
+          </div>
+		   </main>
+      <footer class="footer">
+    <div class="copyright">
+        &copy;
+        
+        <span itemprop="copyrightYear">2012 - 2019</span>
+        
+         
+            <span class="author" itemprop="copyrightHolder"><a href="https://jusmistic.github.io">Jusmistic</a> | </span>
+         
+
+		  <span>Crafted with ❤️ by <a href="https://github.com/Fastbyte01/KeepIt" target="_blank" rel="external nofollow noopener noreffer">KeepIt</a> & <a href="https://gohugo.io/" target="_blank" rel="external nofollow noopener noreffer">Hugo</a></span>
+    </div>
+</footer>
+
+
+
+
+
+
+
+
+
+
+
+
+    
+     <link href="//lib.baomitu.com/lightgallery/1.6.12/css/lightgallery.min.css" rel="stylesheet">  
+      
+     <script src="/js/vendor_gallery.min.js" async="" ></script>
+    
+  
+
+
+
+
+
+<script type="application/javascript">
+var doNotTrack = false;
+if (!doNotTrack) {
+	window.ga=window.ga||function(){(ga.q=ga.q||[]).push(arguments)};ga.l=+new Date;
+	ga('create', 'UA-141308932-1', 'auto');
+	
+	ga('send', 'pageview');
+}
+</script>
+<script async src='https://www.google-analytics.com/analytics.js'></script>
+
+
+
+     </div>
+  </body>
+</html>
